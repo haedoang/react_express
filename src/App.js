@@ -12,7 +12,7 @@ class App extends React.Component{
   }
 
   componentDidMount(){
-    fetch('http://localhost:3001/api')
+    fetch('api')
       .then(res=>res.json())
       .then(data=>this.setState({username:data.username}));
   }
