@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <button id="callback_call">click</button>
+    <script>
+        $("#callback_call").on("click",function(){
+            getData(function(tableData){
+                console.log(tableData)
+            })
+        })
+
+        function getData(callbackFunc){
+            $.get('http://192.168.99.82:59150/command?type=sttstream?localparty=2835&direction=both&protocol=http&enable=true&stereo=false', function(response){
+                callbackFunc(response);
+            })
+        }
+
+    </script>
+</body>
+</html>

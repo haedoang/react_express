@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <h2>hello</h2>
+
+    <button id="callback_call">callback</button>
+    <button id="promise_call">promise</button>
+    <button id="promise_chain_call">promise_chain</button>
+
+    <hr/>
+
+    <h3>프로미스 연결 테스트 </h3>
+    id : <input type="text" id="id"/><br/>
+    password : <input type="password" id="password"></br>
+
+    <button id="login_btn">로그인</button>
+
+
+    <script>
+
+        $("#callback_call").on("click",function(){
+            getData(function(tableData){
+                console.log(tableData)
+            })
+        })
+
+        $("#promise_chain_call").on("click",function(){
+            new Promise((resolve,reject)=> {
+                setTimeout(function(){
+                    resolve(1)
+                },2000) 
+            })
+            .then(function(result){
+                console.log(result)
+                return result +10;
+            })
+            .then(function(result){
+                console.log(result)
+                return result +20;
+            })
+            .then(function(result){
+                console.log(result)
+            })            
+        })
+
+
+
+        $("#promise_call").on("click",function(){
+            _getData().then(function(data){
+                console.log(data);
+            }).catch(function(err){
+                console.log(err)
+            })
+        })
+
+
+        function getData(callbackFunc){
+            $.get('https://jsonplaceholder.typicode.com/posts', function(response){
+                callbackFunc(response);
+            })
+        }
+
+        function _getData(callback){
+            return new Promise(function(resolve, reject) {
+                $.get('https://jsonplaceholder.typicode.com/posts/1', function(response){
+                    //데이터를 받는 경우 resolve() 호출. 
+                    if(response) {
+                        resolve(response);
+                    }
+                    reject(new Error("request is failed"))
+                })
+            })
+        }
+
+        $("#login_btn").on("click", function(){
+            var userInfo = {
+                id : $("#id").val(),
+                password : $("#password").val()
+            }   
+            
+            getUser(userInfo)
+            .then(parseValue)
+            .then(auth)
+            .then(display)
+            .catch((err)=>console.log(err))
+        })
+
+        function getUser(userInfo){
+            return new Promise(function(resolve, reject){
+                if(userInfo.id === "misster") {
+                    console.log("user info success")
+                    resolve(userInfo)
+                }
+                else {
+                    reject(new Error("user not exist"))
+                }
+            })
+        }
+
+
+        function parseValue(userInfo) {
+            return new Promise(function(resolve, reject){
+                if(userInfo.password === "1234") {
+                    userInfo.password = "enc_" + userInfo.password
+                    console.log("parse success :", userInfo)
+                    resolve(userInfo)
+                }
+                else {
+                    reject(new Error("password fail"))
+                }
+            })
+            
+        }
+        function auth(userInfo) {
+            return new Promise(function(resolve, reject){
+                if(userInfo.id === "misster") {
+                    console.log("auth success :", userInfo)
+                    resolve(userInfo)
+                }
+                else {
+                    reject(new Error("auth fail"))
+                }
+            })
+        }
+        function display(userInfo) {
+            console.log(userInfo)
+        }
+    </script>
+</body>
+</html>

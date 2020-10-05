@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <script>
+    //    function fetchItems() {
+    //         return new Promise(function(resolve, reject) {
+    //             var items = [1,2,3];
+    //             resolve(items)
+    //         });
+    //     }
+
+    //     async function logItems() {
+    //         var resultItems = await fetchItems();
+    //         console.log(resultItems); // [1,2,3]
+    //     }
+
+    //     $(function(){
+    //         logItems();
+    //     })
+
+        function fetchUser () {
+            var url = 'https://jsonplaceholder.typicode.com/users/1'
+            return fetch(url).then(function(response){
+                return response.json();
+            })
+        }
+
+        function fetchTodo(){
+            var url = 'https://jsonplaceholder.typicode.com/comments/1'
+            return fetch(url).then(function(response){
+                return response.json();
+            })
+        }
+
+        $(function(){
+            logTodoTitle();
+        })
+
+
+        async function logTodoTitle(){
+            var user = await fetchUser();
+            console.log(user)
+        }
+
+    </script>
+</body>
+</html>

@@ -74,3 +74,7 @@ const encodedPayload = new Buffer(JSON.stringify(payload))
 
 console.log(encodedHeader+"."+encodedPayload + "." + signature);
 
+
+
+//https://jwt.io/
+
